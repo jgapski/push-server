@@ -39,6 +39,7 @@ app.service("menuItemsService",function () {
 app.controller("mainAppController", ["$scope", "menuItemsService", function ($scope, menuItemsService) {
     $scope.appTitle = "Fake Restaurant App";
     $scope.item = "item";
+    $scope.drinks = menuItemsService.drinks;
     $scope.mainItems = menuItemsService.mainItems;
     $scope.additions = menuItemsService.additions;
     $scope.orderedItem = menuItemsService.orderedItems[0];
@@ -55,6 +56,13 @@ app.directive("additionSelector", function () {
     return{
         restrict: "E",
         templateUrl: "elements/additionSelector.html"
+    }
+});
+
+app.directive("drinkSelector", function () {
+    return{
+        restrict: "E",
+        templateUrl: "elements/drinkSelector.html"
     }
 });
 

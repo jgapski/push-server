@@ -1,0 +1,21 @@
+<div class="row h4 align-items-center">
+    <div class="col-sm-1">
+        <button class="btn btn-block btn-sm  btm-success">
+            <span class="glyphicon glyphicon glyphicon-remove"></span>
+        </button>
+    </div>
+    <div class="col-sm-2 bg-success orderItem">
+        <span>{{orderedItem.mainItem}}</span>
+    </div>
+    <div class="col-sm-6 bg-warning orderItem">
+        <span ng-repeat="adds in orderedItem.additions" class="adds">{{adds}}</span>
+    </div>
+    <div class="col-sm-2 bg-info orderItem">
+        <span>{{orderedItem.drink}}</span>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-block btn-sm btm-warning">
+            <span class="glyphicon glyphicon glyphicon glyphicon-pencil"></span>
+        </button>
+    </div>
+</div>

@@ -3,22 +3,55 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Grocery App</title>
+    <title>Fake Restaurant App</title>
 
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/appStyles.css">
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/Popper.js"></script>
-    <script type="text/javascript" src="lib/bootstrap.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src="lib/angular-route.js"></script>
-    <script type="text/javascript" src="lib/underscore-min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="lib/underscore-min.js"></script>
 
 </head>
-<body>
+<body ng-controller="mainAppController">
 
+    <nav class="navbar navbar-dark">
+        <a class="navbar-brand" href="#">
+            <span class="glyphicon glyphicon glyphicon-cutlery"></span>
+            <span class="h3 font-weight-bold"> {{appTitle}} </span>
+        </a>
+    </nav>
 
+    <div class="jumbotron text-center">
+        <span class="h1">Your Order</span>
+    </div>
 
+    <div class="col-sm-12 bg-secondary">
+        <ul class="list-group">
+            <li class="list-group-item text-center clearfix">
+                <ordered-item></ordered-item>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="form-group">
+            <a href="#!/addItem">
+                <button class="btn btn-info btn-block btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="font-weight-bold h5">Add item</span>
+                </button>
+            </a>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-warning btn-block btn-lg">
+                    <span class="font-weight-bold h5">Submit</span>
+            </button>
+        </div>
+    </div>
 
 </body>
 </html>

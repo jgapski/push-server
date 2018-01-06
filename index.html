@@ -25,41 +25,8 @@
         </a>
     </nav>
 
-    <div class="jumbotron text-center">
-        <span class="h1">Your Order</span>
+    <div class="container" ng-view>
+
     </div>
-
-    <div class="col-sm-12 bg-secondary">
-        <ul class="list-group">
-            <li class="list-group-item text-center clearfix">
-                <ordered-item></ordered-item>
-                <ordered-item></ordered-item>
-                <ordered-item></ordered-item>
-                <ordered-item></ordered-item>
-                <ordered-item></ordered-item>
-
-            </li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <div class="form-group">
-            <a href="#!/addItem">
-                <button class="btn btn-info btn-block btn-lg">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="font-weight-bold h5">Add item</span>
-                </button>
-            </a>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-warning btn-block btn-lg">
-                    <span class="font-weight-bold h5">Submit</span>
-            </button>
-        </div>
-    </div>
-
-    <main-course-selector></main-course-selector>
-    <addition-selector></addition-selector>
-    <drink-selector></drink-selector>
 </body>
 </html>

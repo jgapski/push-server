@@ -13,12 +13,16 @@ a {
 
 textarea {
     resize: none;
+    width: available;
 }
 
 .special{
     height:100%;
     background-image: url("background.jpg");
+}
 
+.navbar{
+    background-image: url("background.jpg");
 }
 
 .msg {
@@ -75,9 +79,11 @@ button{
 }
 
 .col-header {
-    padding: 2px 0px;
+    padding-top: 4px;
+    padding-bottom: 2px;
     /*margin-bottom: 10px;
     border-bottom: #000000 1px solid;*/
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 .header-text {
@@ -86,19 +92,14 @@ button{
 }
 
 #mainMsgContainer {
-    height: 82%;
+    height: 70%;
     overflow: scroll;
 }
 
 #msgInput {
     margin-top: 10px;
-    height: 15%;
 }
 
 #myList {
     margin-top: 10px;
-}
-
-.fade.active {
-    opacity: 1;
 }

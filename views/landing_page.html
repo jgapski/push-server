@@ -12,14 +12,14 @@
                 <label for="nick">Your unique nick</label>
 
                 <div class="container">
-                    <input type="text"  class="form-control" id="nick" placeholder="Enter your nick here">
+                    <input type="text"  class="form-control w-75 center-block" id="nick" placeholder="Enter your nick here" ng-model="name">
                 </div>
 
                 <small id="emailHelp" class="form-text text-muted">
                     This is the name you will be using for current browser session
                 </small>
             </div>
-            <a href="#!/main" class="btn btn-primary btn-lg">
+            <a class="btn btn-primary btn-lg w-25" ng-click="validateName()">
                 Enter
             </a>
         </form>

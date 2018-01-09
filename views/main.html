@@ -1,4 +1,4 @@
-<div class="modal   " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,21 +6,21 @@
             </div>
             <div class="modal-body">
                 <form class="form-group">
-                    <input type="text" class="form-control input-lg">
+                    <input type="text" class="form-control input-lg" ng-model="newUser">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add an user</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addNewUser()">Add an user</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light">
     <a class="navbar-brand" href="#">
-        <span class="glyphicon glyphicon-envelope"></span>
+        <i class="fa fa-envelope" aria-hidden="true"></i>
         {{appTitle}}
     </a>
 </nav>
@@ -28,80 +28,42 @@
     <div class="row">
         <div class="col col-sm-4" id="col-left">
             <div class="col-header bg-info text-center align-items-center">
-                <span class="h4 header-text">Conversations</span>
+                <span class="h5 header-text">Conversations</span>
                 <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
-                    <span class="glyphicon glyphicon-plus"></span>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
 
             </div>
 
             <div class="list-group" id="myList" role="tablist">
-                <a class="list-group-item list-group-item-action active text-center" data-toggle="list" href="#home" target="_self" role="tab">User1</a>
-                <a class="list-group-item list-group-item-action text-center" data-toggle="list" href="#profile" target="_self" role="tab">User2</a>
-                <a class="list-group-item list-group-item-action text-center" data-toggle="list" href="#messages" target="_self" role="tab">User3</a>
-                <a class="list-group-item list-group-item-action text-center" data-toggle="list" href="#settings" target="_self" role="tab">User4</a>
+                <a class="list-group-item list-group-item-action text-center center-block"
+                   data-toggle="list" ng-href="#{{item.user}}" ng-click="setActiveUser(item.user)" target="_self" role="tab" ng-repeat="item in messageBoard"> {{item.user}}
+                </a>
             </div>
 
         </div>
         <div class="col col-sm-8" id="col-right">
             <div class="col-header text-center bg-info">
-                <span class="h4 header-text">Message To : User1 </span>
+                <span class="h5 header-text">Message to : {{activeUser}} </span>
             </div>
 
             <div id="mainMsgContainer">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home" role="tabpanel">
-                        <div class="msg msg-from text-center">
-                            Hej!
-                        </div>
-
-                        <div class="msg msg-to text-center">
-                            Cześć
-                        </div>
-                        <div class="msg msg-from text-center">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget consectetur arcu.
-                            In porta, diam ut imperdiet fringilla, magna enim posuere sem, non tristique ipsum ipsum eu velit.
-                            Donec feugiat nisl nisi, id fermentum nibh ultricies ut. Curabitur quis facilisis lorem.
-                            Curabitur vitae nisi et mauris vestibulum feugiat.
-                            Nam tempus purus ipsum, nec placerat mi pharetra nec. Integer sit amet turpis in dolor finibus elementum vitae nec turpis.
-                        </div>
-
-                        <div class="msg msg-to text-center">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget consectetur arcu.
-                            In porta, diam ut imperdiet fringilla, magna enim posuere sem, non tristique ipsum ipsum eu velit.
-                            Donec feugiat nisl nisi, id fermentum nibh ultricies ut. Curabitur quis facilisis lorem.
-                            Curabitur vitae nisi et mauris vestibulum feugiat.
-                            Nam tempus purus ipsum, nec placerat mi pharetra nec. Integer sit amet turpis in dolor finibus elementum vitae nec turpis.
-                        </div>
-                        <div class="msg msg-from text-center">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget consectetur arcu.
-                            In porta, diam ut imperdiet fringilla, magna enim posuere sem, non tristique ipsum ipsum eu velit.
-                            Donec feugiat nisl nisi, id fermentum nibh ultricies ut. Curabitur quis facilisis lorem.
-                            Curabitur vitae nisi et mauris vestibulum feugiat.
-                            Nam tempus purus ipsum, nec placerat mi pharetra nec. Integer sit amet turpis in dolor finibus elementum vitae nec turpis.
-                        </div>
-
-                        <div class="msg msg-to text-center">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget consectetur arcu.
-                            In porta, diam ut imperdiet fringilla, magna enim posuere sem, non tristique ipsum ipsum eu velit.
-                            Donec feugiat nisl nisi, id fermentum nibh ultricies ut. Curabitur quis facilisis lorem.
-                            Curabitur vitae nisi et mauris vestibulum feugiat.
-                            Nam tempus purus ipsum, nec placerat mi pharetra nec. Integer sit amet turpis in dolor finibus elementum vitae nec turpis.
+                    <div class="tab-pane" id="{{item.user}}" role="tabpanel" ng-repeat="item in messageBoard">
+                        <div class="msg msg-from text-center" ng-class="{'msg-to': message.from == userName, 'msg-from': message.to == userName}"
+                             ng-repeat="message in item.messages">
+                            {{message.msg}}
                         </div>
 
                     </div>
-                    <div class="tab-pane" id="profile" role="tabpanel">bbbbbbb</div>
-                    <div class="tab-pane" id="messages" role="tabpanel">ccccccc</div>
-                    <div class="tab-pane" id="settings" role="tabpanel">ddddddddd</div>
                 </div>
             </div>
-            <div class="form-row" id="msgInput">
-                <div class="col col-xs-9" >
-                    <textarea type="text" rows="2" class="form-control"></textarea>
+            <div class="container" id="msgInput">
+                <div class="form-group">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" ng-model="currentMessage.msg"></textarea>
                 </div>
-                <div class="col col-xs-auto">
-                    <button class="btn center-block btn-success btn-lg">Send!</button>
-                </div>
+                <button class="btn btn-block center-block w-75 btn-success btn-sm" ng-click="sendMessage()">Send!</button>
+
             </div>
 
         </div>

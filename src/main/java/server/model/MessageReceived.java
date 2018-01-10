@@ -24,4 +24,12 @@ public class MessageReceived {
     public void setSender(String sender) {
         this.sender = sender;
     }
+
+    public Pig getPig() {
+        return pig;
+    }
+
+    public void setPig(Pig pig) {
+        this.pig = pig;
+    }
 }

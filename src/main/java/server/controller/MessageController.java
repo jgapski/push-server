@@ -22,7 +22,8 @@ public class MessageController {
     @SendTo("/topic/messages")
     public MessageReceived receive(@DestinationVariable String recipient, Message message) throws InterruptedException {
         Thread.sleep(1000);
-        return new MessageReceived(message.getSender(), message.getContent());
+        MessageReceived messageReceived = new MessageReceived(message.getSender(), message.getContent());
+        return messageReceived;
     }
 
 

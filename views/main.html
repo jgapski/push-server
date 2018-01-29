@@ -50,9 +50,9 @@
             <div id="mainMsgContainer">
                 <div class="tab-content">
                     <div class="tab-pane" id="{{item.user}}" role="tabpanel" ng-repeat="item in messageBoard">
-                        <div class="msg msg-from text-center" ng-class="{'msg-to': message.from == userName, 'msg-from': message.to == userName}"
-                             ng-repeat="message in item.messages">
-                            {{message.msg}}
+                        <div class="msg msg-from text-center" ng-class="{'msg-to': imessage.from == userName, 'msg-from': imessage.to == userName}"
+                             ng-repeat="imessage in item.messages">
+                            {{imessage.content}}
                         </div>
 
                     </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="container" id="msgInput">
                 <div class="form-group">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" ng-model="currentMessage.msg"></textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" ng-model="currentMessage.content"></textarea>
                 </div>
                 <button class="btn btn-block center-block w-75 btn-success btn-sm" ng-click="sendMessage()">Send!</button>
 

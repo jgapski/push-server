@@ -10,10 +10,6 @@ angular.module("servicesModule",[])
         mainChatService.userName = userName;
     };
 
-    mainChatService.validateName = function (name) {
-        if (!name) return false;
-        return true;
-    };
 
     return mainChatService;
 })
@@ -21,21 +17,31 @@ angular.module("servicesModule",[])
 .service("messageManagerService", function () {
     var messageManagerService = {};
 
+    messageManagerService.userName = "";
+
+    messageManagerService.setUserName = function (userName) {
+        messageManagerService.userName = userName;
+    };
+
+    messageManagerService.messageBoard = [];
+
+
+    /*
     messageManagerService.messageBoard = [
-        {user:"user1", messages:[
-                {from:"user1", to:"me", msg:"Hej"},
-                {from:"me", to:"user1", msg:"Uszanowanko!"},
-                {from:"user1", to:"me", msg:"Wyrazy Szacunku!"}
+        {user:"user1", event: false, messages:[
+                {from:"user1", to:"me", content:"Hej"},
+                {from:"me", to:"user1", content:"Uszanowanko!"},
+                {from:"user1", to:"me", content:"Wyrazy Szacunku!"}
             ]},
-        {user:"user2", messages:[
-                {from:"user2", to:"me", msg:"Hej"},
-                {from:"me", to:"user2", msg:"randomowa wiadomosc!"},
-                {from:"user2", to:"me", msg:"lorem ipsum"},
-                {from:"me", to:"user2", msg:"mesage"}
+        {user:"user2", event: false, messages:[
+                {from:"user2", to:"me", content:"Hej"},
+                {from:"me", to:"user2", content:"randomowa wiadomosc!"},
+                {from:"user2", to:"me", content:"lorem ipsum"},
+                {from:"me", to:"user2", content:"mesage"}
 
             ]}
     ];
-
+*/
     messageManagerService.addUserBoard = function (userBoard) {
         messageManagerService.messageBoard.push(userBoard);
     };
@@ -63,52 +69,56 @@ angular.module("servicesModule",[])
     };
 
     messageManagerService.addNewUser = function (newUser) {
-        var tmp = {user:newUser, messages:[]};
+        var tmp = {user:newUser, event:false, messages:[]};
         messageManagerService.messageBoard.push(tmp);
     };
 
-    return messageManagerService;
-})
 
-.service("webCommunicationService", function () {
-    webCommunicationService = {};
+    messageManagerService.ajaxRequest = function (data,url) {
 
-    webCommunicationService.ajaxRequest = function (request) {
         $.ajax({
             method: "POST",
-            url: "http://localhost:8080/chat",
-            data: JSON.stringify(request)
-        }).done(function( data ) {
-            alert("---    " + data);
-            console.log(data);
-        }).fail( function (jqXHR, textStatus) {
+            url: "http://localhost:8080/" + url,
+            data: data
+        }).done(messageManagerService.afterAjax)
+            .fail( function (jqXHR, textStatus) {
             console.log("ajax fail" + textStatus);
         });
-    };
-
-    webCommunicationService.sendMessage = function (user,message) {
-        var request = {
-            user: user,
-            type: "msg",
-            content : message
-        };
-        webCommunicationService.ajaxRequest(request);
-    };
-
-
-    webCommunicationService.getMessagesFromServer = function (user) {
-        var request = {
-            user: user,
-            type: "get",
-            content : ""
-        };
-        data = webCommunicationService.ajaxRequest(request);
 
     };
 
-    webCommunicationService.logout = function(name){
+    messageManagerService.afterAjax = function(data){
+        console.log(data);
+
+        if (data.atype === "status") {
+
+        } else if (data.atype === "messages") {
+            messageManagerService.handleNewMessages(data.messages);
+
+        } else if (data.atype === "piggy") {
+
+            if (data.eventStatus === "true") {
+                messageManagerService.getMessagesFromServer();
+            }
+        }
 
     };
 
-    return webCommunicationService;
+    messageManagerService.sendMessage = function (message) {
+        messageManagerService.ajaxRequest(message,"message");
+    };
+
+    messageManagerService.getMessagesFromServer = function () {
+        var user = messageManagerService.userName;
+        var data = {name: user};
+        messageManagerService.ajaxRequest(data,"get");
+
+    };
+
+    messageManagerService.logout = function(user){
+        var data = {name: user};
+        messageManagerService.ajaxRequest(data,"logout");
+    };
+
+    return messageManagerService;
 });

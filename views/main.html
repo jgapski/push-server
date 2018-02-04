@@ -27,7 +27,7 @@
 <div id="main-bg">
     <div class="row">
         <div class="col col-sm-4" id="col-left">
-            <div class="col-header bg-info text-center align-items-center">
+            <div class="col-header text-center align-items-center">
                 <span class="h5 header-text">Conversations</span>
                 <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -37,13 +37,16 @@
 
             <div class="list-group" id="myList" role="tablist">
                 <a class="list-group-item list-group-item-action text-center center-block"
-                   data-toggle="list" ng-href="#{{item.user}}" ng-click="setActiveUser(item.user)" target="_self" role="tab" ng-repeat="item in messageBoard"> {{item.user}}
+                   data-toggle="list" ng-href="#{{item.user}}"
+                   ng-click="setActiveUser(item.user)" target="_self" role="tab" ng-repeat="item in messageBoard">
+                    {{item.user}}
+                    <span class="badge-pill badge-secondary pull-right" ng-class="{'hidden': !item.event}">!</span>
                 </a>
             </div>
 
         </div>
         <div class="col col-sm-8" id="col-right">
-            <div class="col-header text-center bg-info">
+            <div class="col-header text-center">
                 <span class="h5 header-text">Message to : {{activeUser}} </span>
             </div>
 
@@ -60,9 +63,9 @@
             </div>
             <div class="container" id="msgInput">
                 <div class="form-group">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" ng-model="currentMessage.content"></textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" ng-model="messagePrototype.content"></textarea>
                 </div>
-                <button class="btn btn-block center-block w-75 btn-success btn-sm" ng-click="sendMessage()">Send!</button>
+                <button class="btn btn-block center-block w-75 btn-primary btn-sm" ng-click="sendMessage()">Send!</button>
 
             </div>
 

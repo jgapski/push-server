@@ -7,6 +7,7 @@ angular.module("controllersModule",[])
 
     $scope.validateName = function () {
 
+
         if ($scope.username){
             $.ajax({
                 method: "POST",
@@ -21,6 +22,7 @@ angular.module("controllersModule",[])
             });
         }
 
+        //$scope.saveName();
 
     };
 
@@ -46,22 +48,24 @@ angular.module("controllersModule",[])
 
     $scope.setActiveUser = function (user) {
         $scope.activeUser = user;
-        $scope.currentMessage.to = user;
+        $scope.messagePrototype.to = user;
+        messageManagerService.setUserEvent(user, false);
+        //$scope.$apply();
     };
 
-    $scope.currentMessage = {
+    $scope.messagePrototype = {
         from: $scope.userName,
         to:$scope.activeUser,
         content:""
     };
 
     $scope.sendMessage = function () {
-
-        if ($scope.currentMessage.content){
-            messageManagerService.addMessage($scope.activeUser,_.clone($scope.currentMessage));
-            messageManagerService.sendMessage($scope.currentMessage);
-            $scope.currentMessage.content = "";
+        if ($scope.messagePrototype.content){
+            messageManagerService.addMessage($scope.activeUser,_.clone($scope.messagePrototype));
+            messageManagerService.sendMessage($scope.messagePrototype);
+            $scope.messagePrototype.content = "";
         }
+        //$scope.$apply();
     };
 
     $scope.addNewUser = function () {

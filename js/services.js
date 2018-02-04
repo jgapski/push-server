@@ -41,7 +41,8 @@ angular.module("servicesModule",[])
 
             ]}
     ];
-*/
+    */
+
     messageManagerService.addUserBoard = function (userBoard) {
         messageManagerService.messageBoard.push(userBoard);
     };
@@ -63,9 +64,15 @@ angular.module("servicesModule",[])
         var userBoard = messageManagerService.findBoardByUserName(user);
         if (userBoard) userBoard.messages.push(msg);
         else{
-            userBoard = {user: user, messages: [msg]};
+            userBoard = {user: user, event:true, messages: [msg]};
             messageManagerService.addUserBoard(userBoard);
         }
+        userBoard.event = true;
+    };
+
+    messageManagerService.setUserEvent = function(name,value){
+        var userBoard = messageManagerService.findBoardByUserName(name);
+        userBoard.event = value;
     };
 
     messageManagerService.addNewUser = function (newUser) {
@@ -90,14 +97,17 @@ angular.module("servicesModule",[])
     messageManagerService.afterAjax = function(data){
         console.log(data);
 
-        if (data.atype === "status") {
+        if (data.mtype === "status") {
 
-        } else if (data.atype === "messages") {
+        } else if (data.mtype === "messages") {
+            console.log("messages");
             messageManagerService.handleNewMessages(data.messages);
 
-        } else if (data.atype === "piggy") {
 
+        } else if (data.mtype === "piggy") {
+            console.log("piggy");
             if (data.eventStatus === "true") {
+                console.log("event");
                 messageManagerService.getMessagesFromServer();
             }
         }
@@ -105,6 +115,8 @@ angular.module("servicesModule",[])
     };
 
     messageManagerService.sendMessage = function (message) {
+        //messageManagerService.addMessage();
+        messageManagerService.setUserEvent(message.to , false);
         messageManagerService.ajaxRequest(message,"message");
     };
 

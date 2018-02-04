@@ -1,11 +1,22 @@
 package resources;
 
-public class ServerAnswer  extends Answer{
-    private String status;
+import interfaces.Answer;
 
-    public ServerAnswer(String status) {
-        super("status");
+public class ServerAnswer  implements Answer {
+    private String status;
+    private String mtype;
+
+    public ServerAnswer(String status, String atype) {
+        this.mtype = atype;
         this.status = status;
+    }
+
+    public String getMtype() {
+        return mtype;
+    }
+
+    public void setMtype(String mtype) {
+        this.mtype = mtype;
     }
 
     public String getStatus() {

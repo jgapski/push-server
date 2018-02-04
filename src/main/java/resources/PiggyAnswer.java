@@ -1,13 +1,25 @@
 package resources;
 
-public class PiggyAnswer extends Answer {
+import interfaces.Answer;
+import interfaces.PiggybackDecorator;
+
+public class PiggyAnswer implements PiggybackDecorator, Answer {
+    private String mtype;
     private Answer answer;
     private String eventStatus;
 
-    public PiggyAnswer(Answer answer, String eventStatus) {
-        super("piggy");
+    public PiggyAnswer(String mtype, Answer answer, String eventStatus) {
+        this.mtype = mtype;
         this.answer = answer;
         this.eventStatus = eventStatus;
+    }
+
+    public String getMtype() {
+        return mtype;
+    }
+
+    public void setMtype(String mtype) {
+        this.mtype = mtype;
     }
 
     public Answer getAnswer() {

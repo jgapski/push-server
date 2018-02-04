@@ -1,5 +1,6 @@
 package controllers;
 
+import interfaces.Answer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,48 +10,50 @@ import resources.*;
 @RestController
 public class MainRequestController {
 
+    private final String origin = "http://localhost:63342";
     private MessageController messageController = new MessageController();
     private UserController userController = new UserController();
 
-    @CrossOrigin(origins = "http://localhost:63342")
-    @RequestMapping("/login")
+    @CrossOrigin(origins = origin)
+    @RequestMapping(value = "/login")
     public Answer login(@RequestParam(value="name") String name) {
-        if (userController.isActive(name)) return new ServerAnswer("error");
+        if (userController.isActive(name)) return new ServerAnswer("error","status");
         else {
             userController.addUser(name);
-            return new ServerAnswer("ok");
+            return new ServerAnswer("ok", "status");
         }
+
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
+    @CrossOrigin(origins = origin)
     @RequestMapping("/get")
     public Answer get(@RequestParam(value="name") String name) {
-        return new GetMessagesAnswer(messageController.getMessagesToUser(name));
+        return new GetMessagesAnswer(messageController.getMessagesToUser(name), "messages");
     }
 
 
-    @CrossOrigin(origins = "http://localhost:63342")
+    @CrossOrigin(origins = origin)
     @RequestMapping("/message")
     public Answer message( @RequestParam(value="from") String from,
                            @RequestParam(value="to") String to,
                            @RequestParam(value="content") String content
                            ) {
         Message msg = new Message(from,to,content);
-        //System.out.println(from + " f    t " + to + " t    c " + content);
+
         messageController.addMessage(msg);
         String user = msg.getFrom();
         Answer ans;
         if (messageController.isMessageForUser(user)){
-            ans = new ServerAnswer("ok");
-            return new PiggyAnswer(ans,"true");
+            ans = new ServerAnswer("ok", "status");
+            return new PiggyAnswer("piggy", ans, "true");
         }
-        return new ServerAnswer("ok");
+        return new ServerAnswer("ok", "status");
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
+    @CrossOrigin(origins = origin)
     @RequestMapping("/logout")
     public Answer logout(@RequestParam(value="name") String name) {
         if (userController.isActive(name)) userController.deleteUser(name);
-        return new ServerAnswer("ok");
+        return new ServerAnswer("ok", "status");
     }
 }

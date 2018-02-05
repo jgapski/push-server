@@ -17,14 +17,7 @@ angular.module("servicesModule",[])
 .service("messageManagerService", function () {
     var messageManagerService = {};
 
-    messageManagerService.userName = "";
-
-    messageManagerService.setUserName = function (userName) {
-        messageManagerService.userName = userName;
-    };
-
     messageManagerService.messageBoard = [];
-
 
     /*
     messageManagerService.messageBoard = [
@@ -78,58 +71,6 @@ angular.module("servicesModule",[])
     messageManagerService.addNewUser = function (newUser) {
         var tmp = {user:newUser, event:false, messages:[]};
         messageManagerService.messageBoard.push(tmp);
-    };
-
-
-    messageManagerService.ajaxRequest = function (data,url) {
-
-        $.ajax({
-            method: "POST",
-            url: "http://localhost:8080/" + url,
-            data: data
-        }).done(messageManagerService.afterAjax)
-            .fail( function (jqXHR, textStatus) {
-            console.log("ajax fail" + textStatus);
-        });
-
-    };
-
-    messageManagerService.afterAjax = function(data){
-        console.log(data);
-
-        if (data.mtype === "status") {
-
-        } else if (data.mtype === "messages") {
-            console.log("messages");
-            messageManagerService.handleNewMessages(data.messages);
-
-
-        } else if (data.mtype === "piggy") {
-            console.log("piggy");
-            if (data.eventStatus === "true") {
-                console.log("event");
-                messageManagerService.getMessagesFromServer();
-            }
-        }
-
-    };
-
-    messageManagerService.sendMessage = function (message) {
-        //messageManagerService.addMessage();
-        messageManagerService.setUserEvent(message.to , false);
-        messageManagerService.ajaxRequest(message,"message");
-    };
-
-    messageManagerService.getMessagesFromServer = function () {
-        var user = messageManagerService.userName;
-        var data = {name: user};
-        messageManagerService.ajaxRequest(data,"get");
-
-    };
-
-    messageManagerService.logout = function(user){
-        var data = {name: user};
-        messageManagerService.ajaxRequest(data,"logout");
     };
 
     return messageManagerService;

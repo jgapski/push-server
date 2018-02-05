@@ -54,6 +54,9 @@ textarea {
     float: right;
 }
 
+.pull-left {
+    float: right;
+}
 
 #main-bg {
     height: 92.5%;

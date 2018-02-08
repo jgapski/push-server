@@ -3,6 +3,7 @@ package controllers;
 import resources.Message;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MessageController {
     private ArrayList<Message> messages;
@@ -12,8 +13,13 @@ public class MessageController {
     }
 
     public boolean isMessageForUser(String user){
-        for ( Message m : messages) {
-            if(m.getTo().equals(user)) return true;
+        Iterator<Message> iterator = messages.iterator();
+        Message tmp;
+        while (iterator.hasNext()){
+            tmp = iterator.next();
+            if (tmp.getTo().equals(user)){
+                return true;
+            }
         }
         return false;
     }
@@ -24,13 +30,16 @@ public class MessageController {
 
     public ArrayList<Message> getMessagesToUser(String user){
         ArrayList<Message> tmpMessages = new ArrayList<>();
-        for ( Message m : messages) {
+        Iterator<Message> iterator = messages.iterator();
+        Message m;
+
+        while (iterator.hasNext()){
+            m = iterator.next();
             if(m.getTo().equals(user)){
                 tmpMessages.add(m);
-                messages.remove(messages.indexOf(m));
+                iterator.remove();
             }
         }
-
         return tmpMessages;
     }
 

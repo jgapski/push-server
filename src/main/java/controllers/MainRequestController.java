@@ -10,7 +10,7 @@ import resources.*;
 @RestController
 public class MainRequestController {
 
-    private final String origin = "http://localhost:63342";
+    private final String origin = "http://localhost:63343";
     private MessageController messageController = new MessageController();
     private UserController userController = new UserController();
 
@@ -28,7 +28,11 @@ public class MainRequestController {
     @CrossOrigin(origins = origin)
     @RequestMapping("/get")
     public Answer get(@RequestParam(value="name") String name) {
-        return new GetMessagesAnswer(messageController.getMessagesToUser(name), "messages");
+        if(messageController.isMessageForUser(name)) {
+            return new GetMessagesAnswer(messageController.getMessagesToUser(name), "messages");
+        } else {
+            return new ServerAnswer("ok", "status");
+        }
     }
 
 
@@ -39,7 +43,6 @@ public class MainRequestController {
                            @RequestParam(value="content") String content
                            ) {
         Message msg = new Message(from,to,content);
-
         messageController.addMessage(msg);
         String user = msg.getFrom();
         Answer ans;

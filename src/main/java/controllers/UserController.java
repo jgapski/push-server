@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class UserController {
     private ArrayList<String> ActiveUsers;
@@ -10,7 +11,10 @@ public class UserController {
     }
 
     public boolean isActive(String name){
-        for (String user : ActiveUsers) {
+        Iterator<String> iterator = ActiveUsers.iterator();
+        String user;
+        while (iterator.hasNext()){
+            user = iterator.next();
             if (user.equals(name)) return true;
         }
         return false;

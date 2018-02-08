@@ -2,17 +2,19 @@ angular.module("controllersModule",[])
 
 .controller("indexController",["$scope", "$location", "mainChatService", function ($scope, $location, mainChatService) {
     $scope.appTitle = mainChatService.appTitle;
+    $scope.userName = "";
 
-    $scope.username = "";
-
+    /**
+     * validate at server-side if entered username is already taken
+     */
     $scope.validateName = function () {
-
-
-        if ($scope.username){
+        console.log("login");
+        if ($scope.userName){
+            console.log("username correct");
             $.ajax({
                 method: "POST",
                 url: "http://localhost:8080/login",
-                data: {name: $scope.username}
+                data: {name: $scope.userName}
             }).done(function( data ) {
                 if (data.status === "ok") {
                     $scope.saveName();
@@ -22,12 +24,13 @@ angular.module("controllersModule",[])
             });
         }
 
-        //$scope.saveName();
-
     };
 
+    /**
+     * saves validated username
+     */
     $scope.saveName = function () {
-        mainChatService.setUserName($scope.username);
+        mainChatService.setUserName($scope.userName);
         $location.path("/main");
         $scope.$apply();
     };
@@ -40,36 +43,42 @@ angular.module("controllersModule",[])
     $scope.userName = mainChatService.userName;
     $scope.activeUser = "";
     $scope.newUser ="";
-    var vm = this;
-
-
-
-    if (!$scope.userName) $location.path("/");
-
-    $scope.messageBoard = messageManagerService.messageBoard;
-
-    $scope.setActiveUser = function (user) {
-        $scope.activeUser = user;
-        $scope.messagePrototype.to = user;
-        messageManagerService.setUserEvent(user, false);
-        //$scope.$apply();
-    };
-
     $scope.messagePrototype = {
         from: $scope.userName,
         to:$scope.activeUser,
         content:""
     };
+    $scope.messageBoard = messageManagerService.messageBoard;
 
+        var vm = this;
+
+    if (!$scope.userName) $location.path("/");
+
+        /**
+         * chages the current conwersation to the one with prowided user
+         * @param user String desired user to have conversation with
+         */
+    $scope.setActiveUser = function (user) {
+        $scope.activeUser = user;
+        $scope.messagePrototype.to = user;
+        messageManagerService.setUserEvent(user, false);
+    };
+
+
+        /**
+         * send message to the serwer
+         */
     $scope.sendMessage = function () {
         if ($scope.messagePrototype.content && $scope.messagePrototype.to && $scope.messagePrototype.from){
+            vm.HTTPRequest(_.clone($scope.messagePrototype),"message");
             messageManagerService.addMessage($scope.activeUser,_.clone($scope.messagePrototype));
-            vm.ajaxRequest(_.clone($scope.messagePrototype),"message");
             $scope.messagePrototype.content = "";
             messageManagerService.setUserEvent($scope.activeUser, false);
         }
     };
-
+        /**
+         * add new User to the lists of conwersations
+         */
     $scope.addNewUser = function () {
         if ($scope.newUser) {
             messageManagerService.addNewUser($scope.newUser);
@@ -78,24 +87,27 @@ angular.module("controllersModule",[])
 
     };
 
-    $window.onbeforeunload = function () {
-        vm.logout($scope.userName);
-    };
-
-    vm.ajaxRequest = function (data,url) {
-
+        /**
+         * performs a http request
+         * @param data data to be send (Js object)
+         * @param url url suffix e.q 'login'
+         */
+    vm.HTTPRequest = function (data, url) {
         $http({
             method: "POST",
             url: "http://localhost:8080/" + url,
             data: data,
             params: data
-        }).then(vm.afterAjax, function (jqXHR, textStatus) {
+        }).then(vm.afterHTTPRequest, function (jqXHR, textStatus) {
             console.log("ajax fail" + textStatus);
         })
 
     };
-
-    vm.afterAjax = function(response){
+        /**
+         * callback function, handles serwer response
+         * @param response server response
+         */
+    vm.afterHTTPRequest = function(response){
         console.log(response.data);
         if (response.data.mtype === "status") {
         } else if (response.data.mtype === "messages") {
@@ -104,21 +116,33 @@ angular.module("controllersModule",[])
         } else if (response.data.mtype === "piggy") {
             console.log("piggy");
             if (response.data.eventStatus === "true") {
-                console.log("event");
-                vm.getMessagesFromServer();
+                $scope.getMessagesFromServer();
             }
         }
-        //$scope.apply();
     };
-    vm.getMessagesFromServer = function () {
-        var user = $scope.userName;
-        var data = {name: user};
-        vm.ajaxRequest(data,"get");
+        /**
+         * function creates a http request to get messages from serwer
+         */
+    $scope.getMessagesFromServer = function () {
+        //var user = $scope.userName;
+        var data = {name: $scope.userName};
+        vm.HTTPRequest(data,"get");
     };
 
+        /**
+         * logs user out from the serwer
+         * @param user
+         */
     vm.logout = function(user){
         var data = {name: user};
-        vm.ajaxRequest(data,"logout");
+        vm.HTTPRequest(data,"logout");
+    };
+
+        /**
+         * function called when exiting application
+         */
+    $window.onbeforeunload = function () {
+        vm.logout($scope.userName);
     };
 
 }]);

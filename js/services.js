@@ -10,7 +10,6 @@ angular.module("servicesModule",[])
         mainChatService.userName = userName;
     };
 
-
     return mainChatService;
 })
 
@@ -35,7 +34,10 @@ angular.module("servicesModule",[])
             ]}
     ];
     */
-
+    /**
+     * adds an user with messages to the messasgeBoard
+     * @param userBoard
+     */
     messageManagerService.addUserBoard = function (userBoard) {
         messageManagerService.messageBoard.push(userBoard);
     };
@@ -47,12 +49,21 @@ angular.module("servicesModule",[])
         return element;
     };
 
+    /**
+     * adds a table of messages got from the serwer to the message board
+     * @param messages a table of messaeges
+     */
     messageManagerService.handleNewMessages = function (messages) {
         for (var index = 0; index < messages.length; index++){
             messageManagerService.addMessage(messages[index].from,messages[index]);
         }
     };
 
+    /**
+     * adds message to the userboard
+     * @param user specifies userBoard
+     * @param msg
+     */
     messageManagerService.addMessage = function (user,msg) {
         var userBoard = messageManagerService.findBoardByUserName(user);
         if (userBoard) userBoard.messages.push(msg);
@@ -63,11 +74,20 @@ angular.module("servicesModule",[])
         userBoard.event = true;
     };
 
+    /**
+     * sets event value for specified userBoard
+     * @param name
+     * @param value
+     */
     messageManagerService.setUserEvent = function(name,value){
         var userBoard = messageManagerService.findBoardByUserName(name);
         userBoard.event = value;
     };
 
+    /**
+     * adds new user to the messageBoard
+     * @param newUser name of the user
+     */
     messageManagerService.addNewUser = function (newUser) {
         var tmp = {user:newUser, event:false, messages:[]};
         messageManagerService.messageBoard.push(tmp);

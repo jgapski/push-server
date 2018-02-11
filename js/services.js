@@ -3,7 +3,7 @@ angular.module("servicesModule",[])
 .service("mainChatService",function () {
     var mainChatService = {};
 
-    mainChatService.appTitle = "Fake Chat App";
+    mainChatService.appTitle = "Push IT";
     mainChatService.userName = "";
 
     mainChatService.setUserName = function (userName) {
@@ -34,9 +34,10 @@ angular.module("servicesModule",[])
             ]}
     ];
     */
+
     /**
      * adds an user with messages to the messasgeBoard
-     * @param userBoard
+     * @param userBoard obcjec {name, event, messages[]}
      */
     messageManagerService.addUserBoard = function (userBoard) {
         messageManagerService.messageBoard.push(userBoard);

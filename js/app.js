@@ -1,6 +1,5 @@
 var app = angular.module("chatApp",["ngRoute", "controllersModule", "servicesModule"]);
 
-
 app.config(['$routeProvider', function($routeProvider){
 
     $routeProvider

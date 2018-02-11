@@ -37,17 +37,28 @@ angular.module("controllersModule",[])
 
 }])
 
-.controller("mainAppController", ["$scope", "$location","$window", "$http", "mainChatService", "messageManagerService",
+.controller("mainAppController", ["$scope", "$location", "$window", "$http", "mainChatService", "messageManagerService",
     function ($scope, $location, $window, $http, mainChatService, messageManagerService) {
     $scope.appTitle = mainChatService.appTitle;
     $scope.userName = mainChatService.userName;
     $scope.activeUser = "";
     $scope.newUser ="";
+
     $scope.messagePrototype = {
         from: $scope.userName,
         to:$scope.activeUser,
-        content:""
+        content:"",
+
+        clone : function () {
+            var msg = {};
+            msg.from = this.from;
+            msg.to = this.to;
+            msg.content  = this.content;
+
+            return msg;
+        }
     };
+
     $scope.messageBoard = messageManagerService.messageBoard;
 
         var vm = this;
@@ -69,9 +80,10 @@ angular.module("controllersModule",[])
          * send message to the serwer
          */
     $scope.sendMessage = function () {
-        if ($scope.messagePrototype.content && $scope.messagePrototype.to && $scope.messagePrototype.from){
-            vm.HTTPRequest(_.clone($scope.messagePrototype),"message");
-            messageManagerService.addMessage($scope.activeUser,_.clone($scope.messagePrototype));
+        var message = $scope.messagePrototype.clone();
+        if (message.content && message.to && message.from){
+            vm.HTTPRequest(message,"message");
+            messageManagerService.addMessage($scope.activeUser,message);
             $scope.messagePrototype.content = "";
             messageManagerService.setUserEvent($scope.activeUser, false);
         }
@@ -110,10 +122,12 @@ angular.module("controllersModule",[])
     vm.afterHTTPRequest = function(response){
         console.log(response.data);
         if (response.data.mtype === "status") {
+
         } else if (response.data.mtype === "messages") {
             console.log("messages");
             messageManagerService.handleNewMessages(response.data.messages);
         } else if (response.data.mtype === "piggy") {
+
             console.log("piggy");
             if (response.data.eventStatus === "true") {
                 $scope.getMessagesFromServer();

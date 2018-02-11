@@ -22,7 +22,6 @@ public class MainRequestController {
             userController.addUser(name);
             return new ServerAnswer("ok", "status");
         }
-
     }
 
     @CrossOrigin(origins = origin)
@@ -56,6 +55,7 @@ public class MainRequestController {
     @CrossOrigin(origins = origin)
     @RequestMapping("/logout")
     public Answer logout(@RequestParam(value="name") String name) {
+        System.out.println(name);
         if (userController.isActive(name)) userController.deleteUser(name);
         return new ServerAnswer("ok", "status");
     }

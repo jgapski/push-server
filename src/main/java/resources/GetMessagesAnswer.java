@@ -2,16 +2,16 @@ package resources;
 
 import interfaces.Answer;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class GetMessagesAnswer implements Answer {
 
     private String mtype;
-    private ArrayList<Message> messages;
+    private Vector<Message> messages;
 
-    public GetMessagesAnswer(ArrayList<Message> messages, String atype) {
+    public GetMessagesAnswer(Vector<Message> messages, String atype) {
         this.mtype = atype;
-        this.messages =  new ArrayList<>(messages);
+        this.messages =  new Vector<>(messages);
     }
 
     public String getMtype() {
@@ -22,11 +22,11 @@ public class GetMessagesAnswer implements Answer {
         this.mtype = mtype;
     }
 
-    public ArrayList<Message> getMessages() {
+    public Vector<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(ArrayList<Message> messages) {
+    public void setMessages(Vector<Message> messages) {
         this.messages = messages;
     }
 }

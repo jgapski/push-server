@@ -1,20 +1,22 @@
 package controllers;
 
-import java.util.ArrayList;
+import resources.MyVectorIterator;
+
+import java.util.Vector;
 import java.util.Iterator;
 
 public class UserController {
-    private ArrayList<String> ActiveUsers;
+    private Vector<String> ActiveUsers;
 
     public UserController(){
-        ActiveUsers = new ArrayList<>();
+        ActiveUsers = new Vector<>();
     }
 
     public boolean isActive(String name){
-        Iterator<String> iterator = ActiveUsers.iterator();
+        MyVectorIterator<String> iterator = new MyVectorIterator(ActiveUsers);
         String user;
         while (iterator.hasNext()){
-            user = iterator.next();
+            user = (String) iterator.next();
             if (user.equals(name)) return true;
         }
         return false;

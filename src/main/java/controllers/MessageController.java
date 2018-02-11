@@ -1,22 +1,21 @@
 package controllers;
 
 import resources.Message;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import resources.MyVectorIterator;
+import java.util.Vector;
 
 public class MessageController {
-    private ArrayList<Message> messages;
+    private Vector<Message> messages;
 
     public MessageController(){
-        messages = new ArrayList<>();
+        messages = new Vector<>();
     }
 
     public boolean isMessageForUser(String user){
-        Iterator<Message> iterator = messages.iterator();
+        MyVectorIterator<Message> MyVectorIterator = new MyVectorIterator<>(messages);
         Message tmp;
-        while (iterator.hasNext()){
-            tmp = iterator.next();
+        while (MyVectorIterator.hasNext()){
+            tmp = (Message) MyVectorIterator.next();
             if (tmp.getTo().equals(user)){
                 return true;
             }
@@ -28,19 +27,29 @@ public class MessageController {
         messages.add(msg);
     }
 
-    public ArrayList<Message> getMessagesToUser(String user){
-        ArrayList<Message> tmpMessages = new ArrayList<>();
-        Iterator<Message> iterator = messages.iterator();
+    public Vector<Message> getMessagesToUser(String user){
+        Vector<Message> tmpMessages = new Vector<>();
+        MyVectorIterator<Message> MyVectorIterator = new MyVectorIterator<>(messages);
         Message m;
 
-        while (iterator.hasNext()){
-            m = iterator.next();
+        while (MyVectorIterator.hasNext()){
+            m = (Message) MyVectorIterator.next();
             if(m.getTo().equals(user)){
                 tmpMessages.add(m);
-                iterator.remove();
+                MyVectorIterator.remove();
             }
         }
         return tmpMessages;
+    }
+
+    public void printMesssages(){
+        MyVectorIterator<Message> iterator = new MyVectorIterator<>(messages);
+        Message m;
+        while (iterator.hasNext()){
+            m = (Message) iterator.next();
+            System.out.println("from: " + m.getFrom() + "   to: " + m.getTo() + "  content: " + m.getContent());
+        }
+
     }
 
 }

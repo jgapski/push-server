@@ -8,9 +8,9 @@ public class PiggyAnswer implements PiggybackDecorator, Answer {
     private Answer answer;
     private String eventStatus;
 
-    public PiggyAnswer(String mtype, Answer answer, String eventStatus) {
+    public PiggyAnswer(String mtype, Answer _answer, String eventStatus) {
         this.mtype = mtype;
-        this.answer = answer;
+        this.answer = _answer;
         this.eventStatus = eventStatus;
     }
 

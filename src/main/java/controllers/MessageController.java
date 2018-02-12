@@ -6,9 +6,17 @@ import java.util.Vector;
 
 public class MessageController {
     private Vector<Message> messages;
+    private static boolean isInstance = false;
+    private static MessageController instance;
 
-    public MessageController(){
+    private MessageController(){
         messages = new Vector<>();
+        isInstance = true;
+    }
+
+    public static MessageController getInstance(){
+        if (!isInstance) instance = new MessageController();
+        return instance;
     }
 
     public boolean isMessageForUser(String user){

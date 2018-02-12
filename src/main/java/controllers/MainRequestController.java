@@ -11,8 +11,8 @@ import resources.*;
 public class MainRequestController {
 
     private final String origin = "http://localhost:63343";
-    private MessageController messageController = new MessageController();
-    private UserController userController = new UserController();
+    private MessageController messageController = MessageController.getInstance();
+    private UserController userController = UserController.getInstance();
 
     @CrossOrigin(origins = origin)
     @RequestMapping(value = "/login")

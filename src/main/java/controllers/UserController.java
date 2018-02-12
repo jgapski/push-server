@@ -1,15 +1,21 @@
 package controllers;
 
 import resources.MyVectorIterator;
-
 import java.util.Vector;
-import java.util.Iterator;
 
 public class UserController {
     private Vector<String> ActiveUsers;
+    private static boolean isInstance = false;
+    private static UserController instance;
 
-    public UserController(){
+    private UserController(){
         ActiveUsers = new Vector<>();
+        isInstance = true;
+    }
+
+    public static UserController getInstance() {
+        if(!isInstance) instance = new UserController();
+        return instance;
     }
 
     public boolean isActive(String name){
